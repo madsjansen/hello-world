@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Vejle Faktatjek — Byrådets pålidelighed</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header>
+    <h1>Vejle Faktatjek</h1>
+    <p class="tagline">Faktatjek af påstande fra Vejle Byråds møder. Pålidelighedsscoren bygger kun på efterprøvbare påstande — antallet vises altid ved siden af.</p>
+  </header>
+
+  <main>
+    <nav class="tabs">
+      <button class="tab active" data-view="politicians">Politikere</button>
+      <button class="tab" data-view="parties">Partier</button>
+      <button class="tab" data-view="claims">Alle påstande</button>
+    </nav>
+
+    <section id="board"></section>
+  </main>
+
+  <footer>
+    <p>Datagrundlag: offentlige lydoptagelser fra <a href="https://www.vejle.dk/politik/politik-og-byraad/moeder-i-byraad-og-udvalg/lydoptagelser-fra-byraadsmoeder/">vejle.dk</a>.
+    Domme er automatisk genereret og bør kvalitetssikres af et menneske før de tillægges vægt.</p>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>

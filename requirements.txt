@@ -1,0 +1,13 @@
+# Kerne — krævet
+anthropic>=0.92.0
+pydantic>=2.0
+
+# Lydhentning (fetch.py) — yt-dlp kan håndtere HLS-streams og direkte filer.
+# ffmpeg skal være installeret på systemet (ikke en pip-pakke).
+yt-dlp>=2024.0
+
+# Transskription (transcribe.py) — valgfri, tunge afhængigheder.
+# Afkommentér når du vil køre rigtig ASR:
+# faster-whisper>=1.0
+# whisperx>=3.1            # ord-præcise tidsstempler + diarization
+# torch>=2.0
