@@ -1,0 +1,226 @@
+{
+  "politicians": [
+    {
+      "name": "Morten Kristensen",
+      "party": "SF",
+      "score": 100.0,
+      "verifiable": 1,
+      "total": 1,
+      "breakdown": {
+        "Korrekt": 1
+      }
+    },
+    {
+      "name": "Jens Ejner Christensen",
+      "party": "Venstre",
+      "score": 75.0,
+      "verifiable": 2,
+      "total": 2,
+      "breakdown": {
+        "Korrekt": 1,
+        "Delvist korrekt": 1
+      }
+    },
+    {
+      "name": "Søren Peschardt",
+      "party": "Socialdemokratiet",
+      "score": 25.0,
+      "verifiable": 1,
+      "total": 1,
+      "breakdown": {
+        "Misvisende": 1
+      }
+    },
+    {
+      "name": "Dan Arnløv Jørgensen",
+      "party": "Det Konservative Folkeparti",
+      "score": 0.0,
+      "verifiable": 1,
+      "total": 1,
+      "breakdown": {
+        "Forkert": 1
+      }
+    },
+    {
+      "name": "Torben Elsig-Pedersen",
+      "party": "Radikale Venstre",
+      "score": null,
+      "verifiable": 0,
+      "total": 1,
+      "breakdown": {
+        "Ikke verificerbar": 1
+      }
+    }
+  ],
+  "parties": [
+    {
+      "name": "SF",
+      "party": "SF",
+      "score": 100.0,
+      "verifiable": 1,
+      "total": 1,
+      "breakdown": {
+        "Korrekt": 1
+      }
+    },
+    {
+      "name": "Venstre",
+      "party": "Venstre",
+      "score": 75.0,
+      "verifiable": 2,
+      "total": 2,
+      "breakdown": {
+        "Korrekt": 1,
+        "Delvist korrekt": 1
+      }
+    },
+    {
+      "name": "Socialdemokratiet",
+      "party": "Socialdemokratiet",
+      "score": 25.0,
+      "verifiable": 1,
+      "total": 1,
+      "breakdown": {
+        "Misvisende": 1
+      }
+    },
+    {
+      "name": "Det Konservative Folkeparti",
+      "party": "Det Konservative Folkeparti",
+      "score": 0.0,
+      "verifiable": 1,
+      "total": 1,
+      "breakdown": {
+        "Forkert": 1
+      }
+    },
+    {
+      "name": "Radikale Venstre",
+      "party": "Radikale Venstre",
+      "score": null,
+      "verifiable": 0,
+      "total": 1,
+      "breakdown": {
+        "Ikke verificerbar": 1
+      }
+    }
+  ],
+  "claims": [
+    {
+      "claim": "Vejle Kommune har over 120.000 indbyggere.",
+      "category": "andet",
+      "politician": "Jens Ejner Christensen",
+      "party": "Venstre",
+      "rating": "Korrekt",
+      "confidence": 0.92,
+      "explanation": "Danmarks Statistik opgør Vejle Kommunes folketal til over 120.000. Påstanden stemmer med de officielle tal.",
+      "sources": [
+        {
+          "title": "Danmarks Statistik — Folketal",
+          "url": "https://www.statistikbanken.dk/folk1a"
+        }
+      ],
+      "meeting": {
+        "date": "2026-03-25",
+        "title": "Byrådsmøde marts 2026 (sample-data)"
+      }
+    },
+    {
+      "claim": "Vejle er den hurtigst voksende kommune i Trekantområdet.",
+      "category": "andet",
+      "politician": "Jens Ejner Christensen",
+      "party": "Venstre",
+      "rating": "Delvist korrekt",
+      "confidence": 0.6,
+      "explanation": "Vejle er blandt de hurtigst voksende kommuner i området, men den præcise placering varierer fra år til år og afhænger af opgørelsesmetode.",
+      "sources": [
+        {
+          "title": "Danmarks Statistik — Befolkningsfremskrivning",
+          "url": "https://www.dst.dk/da/Statistik/emner/befolkning-og-valg"
+        }
+      ],
+      "meeting": {
+        "date": "2026-03-25",
+        "title": "Byrådsmøde marts 2026 (sample-data)"
+      }
+    },
+    {
+      "claim": "Kommunens kassebeholdning er faldet med næsten en halv milliard kroner på to år.",
+      "category": "økonomi",
+      "politician": "Søren Peschardt",
+      "party": "Socialdemokratiet",
+      "rating": "Misvisende",
+      "confidence": 0.55,
+      "explanation": "Kassebeholdningen er faldet, men ikke i den størrelsesorden ifølge kommunens regnskaber; tallet mangler kontekst om planlagte anlægsinvesteringer.",
+      "sources": [
+        {
+          "title": "Vejle Kommune — Årsregnskab",
+          "url": "https://www.vejle.dk/om-kommunen/oekonomi/"
+        }
+      ],
+      "meeting": {
+        "date": "2026-03-25",
+        "title": "Byrådsmøde marts 2026 (sample-data)"
+      }
+    },
+    {
+      "claim": "Ledigheden i Vejle Kommune er lavere end landsgennemsnittet.",
+      "category": "beskæftigelse",
+      "politician": "Morten Kristensen",
+      "party": "SF",
+      "rating": "Korrekt",
+      "confidence": 0.8,
+      "explanation": "Officielle ledighedstal viser en bruttoledighed i Vejle under landsgennemsnittet i den seneste opgørelse.",
+      "sources": [
+        {
+          "title": "Jobindsats / Danmarks Statistik",
+          "url": "https://www.jobindsats.dk/"
+        }
+      ],
+      "meeting": {
+        "date": "2026-03-25",
+        "title": "Byrådsmøde marts 2026 (sample-data)"
+      }
+    },
+    {
+      "claim": "Kommunen plantede én million træer sidste år.",
+      "category": "klima",
+      "politician": "Torben Elsig-Pedersen",
+      "party": "Radikale Venstre",
+      "rating": "Ikke verificerbar",
+      "confidence": 0.4,
+      "explanation": "Der findes ingen offentligt tilgængelig opgørelse der be- eller afkræfter det præcise antal plantede træer.",
+      "sources": [],
+      "meeting": {
+        "date": "2026-03-25",
+        "title": "Byrådsmøde marts 2026 (sample-data)"
+      }
+    },
+    {
+      "claim": "Vejle Kommune har ikke hævet dækningsafgiften de seneste fem år.",
+      "category": "økonomi",
+      "politician": "Dan Arnløv Jørgensen",
+      "party": "Det Konservative Folkeparti",
+      "rating": "Forkert",
+      "confidence": 0.7,
+      "explanation": "Budgetmaterialet viser en justering af dækningsafgiften inden for perioden, hvilket modsiger påstanden.",
+      "sources": [
+        {
+          "title": "Vejle Kommune — Budget",
+          "url": "https://www.vejle.dk/om-kommunen/oekonomi/"
+        }
+      ],
+      "meeting": {
+        "date": "2026-03-25",
+        "title": "Byrådsmøde marts 2026 (sample-data)"
+      }
+    }
+  ],
+  "ratings": [
+    "Korrekt",
+    "Delvist korrekt",
+    "Misvisende",
+    "Forkert",
+    "Ikke verificerbar"
+  ]
+}

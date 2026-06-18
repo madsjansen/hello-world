@@ -1,0 +1,45 @@
+[
+  {
+    "date": "2026-03-25",
+    "title": "Byrådsmøde marts 2026 (sample-data)",
+    "source_url": "https://www.vejle.dk/politik/politik-og-byraad/moeder-i-byraad-og-udvalg/lydoptagelser-fra-byraadsmoeder/",
+    "segments": [
+      {"speaker": "SPEAKER_00", "politician": "Jens Ejner Christensen", "start": 120.0, "end": 168.0,
+       "text": "Vejle Kommune har over 120.000 indbyggere, og vi er den hurtigst voksende kommune i Trekantområdet."},
+      {"speaker": "SPEAKER_01", "politician": "Søren Peschardt", "start": 305.0, "end": 360.0,
+       "text": "Kommunens kassebeholdning er faldet med næsten en halv milliard kroner på to år, og det er dybt bekymrende."}
+    ],
+    "claims": [
+      {"text": "Vejle Kommune har over 120.000 indbyggere.", "category": "andet", "ts": 120.0,
+       "politician": "Jens Ejner Christensen",
+       "verdict": {"rating": "Korrekt", "confidence": 0.92,
+         "explanation": "Danmarks Statistik opgør Vejle Kommunes folketal til over 120.000. Påstanden stemmer med de officielle tal.",
+         "sources": [{"title": "Danmarks Statistik — Folketal", "url": "https://www.statistikbanken.dk/folk1a"}]}},
+      {"text": "Vejle er den hurtigst voksende kommune i Trekantområdet.", "category": "andet", "ts": 150.0,
+       "politician": "Jens Ejner Christensen",
+       "verdict": {"rating": "Delvist korrekt", "confidence": 0.6,
+         "explanation": "Vejle er blandt de hurtigst voksende kommuner i området, men den præcise placering varierer fra år til år og afhænger af opgørelsesmetode.",
+         "sources": [{"title": "Danmarks Statistik — Befolkningsfremskrivning", "url": "https://www.dst.dk/da/Statistik/emner/befolkning-og-valg"}]}},
+      {"text": "Kommunens kassebeholdning er faldet med næsten en halv milliard kroner på to år.", "category": "økonomi", "ts": 305.0,
+       "politician": "Søren Peschardt",
+       "verdict": {"rating": "Misvisende", "confidence": 0.55,
+         "explanation": "Kassebeholdningen er faldet, men ikke i den størrelsesorden ifølge kommunens regnskaber; tallet mangler kontekst om planlagte anlægsinvesteringer.",
+         "sources": [{"title": "Vejle Kommune — Årsregnskab", "url": "https://www.vejle.dk/om-kommunen/oekonomi/"}]}},
+      {"text": "Ledigheden i Vejle Kommune er lavere end landsgennemsnittet.", "category": "beskæftigelse", "ts": 420.0,
+       "politician": "Morten Kristensen",
+       "verdict": {"rating": "Korrekt", "confidence": 0.8,
+         "explanation": "Officielle ledighedstal viser en bruttoledighed i Vejle under landsgennemsnittet i den seneste opgørelse.",
+         "sources": [{"title": "Jobindsats / Danmarks Statistik", "url": "https://www.jobindsats.dk/"}]}},
+      {"text": "Kommunen plantede én million træer sidste år.", "category": "klima", "ts": 540.0,
+       "politician": "Torben Elsig-Pedersen",
+       "verdict": {"rating": "Ikke verificerbar", "confidence": 0.4,
+         "explanation": "Der findes ingen offentligt tilgængelig opgørelse der be- eller afkræfter det præcise antal plantede træer.",
+         "sources": []}},
+      {"text": "Vejle Kommune har ikke hævet dækningsafgiften de seneste fem år.", "category": "økonomi", "ts": 660.0,
+       "politician": "Dan Arnløv Jørgensen",
+       "verdict": {"rating": "Forkert", "confidence": 0.7,
+         "explanation": "Budgetmaterialet viser en justering af dækningsafgiften inden for perioden, hvilket modsiger påstanden.",
+         "sources": [{"title": "Vejle Kommune — Budget", "url": "https://www.vejle.dk/om-kommunen/oekonomi/"}]}}
+    ]
+  }
+]

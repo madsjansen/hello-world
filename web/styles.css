@@ -1,0 +1,73 @@
+:root {
+  --bg: #0f1419;
+  --card: #1a2129;
+  --card-2: #222b35;
+  --text: #e6edf3;
+  --muted: #8b98a5;
+  --line: #2d3742;
+  --korrekt: #3fb950;
+  --delvist: #9ece6a;
+  --misvisende: #d29922;
+  --forkert: #f85149;
+  --ukendt: #6e7681;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.5;
+}
+
+header {
+  padding: 2.5rem 1.5rem 1.5rem;
+  max-width: 880px;
+  margin: 0 auto;
+}
+header h1 { margin: 0 0 .5rem; font-size: 2rem; }
+.tagline { color: var(--muted); margin: 0; max-width: 60ch; }
+
+main { max-width: 880px; margin: 0 auto; padding: 0 1.5rem 3rem; }
+
+.tabs { display: flex; gap: .5rem; margin: 1.5rem 0; border-bottom: 1px solid var(--line); }
+.tab {
+  background: none; border: none; color: var(--muted);
+  padding: .75rem 1rem; cursor: pointer; font-size: 1rem;
+  border-bottom: 2px solid transparent;
+}
+.tab.active { color: var(--text); border-bottom-color: var(--korrekt); }
+
+.row {
+  display: grid; grid-template-columns: 2rem 1fr auto; gap: 1rem;
+  align-items: center; padding: 1rem; background: var(--card);
+  border-radius: 10px; margin-bottom: .6rem;
+}
+.rank { color: var(--muted); font-variant-numeric: tabular-nums; text-align: center; }
+.who .name { font-weight: 600; }
+.who .party { color: var(--muted); font-size: .85rem; }
+.score { text-align: right; }
+.score .val { font-size: 1.5rem; font-weight: 700; font-variant-numeric: tabular-nums; }
+.score .count { color: var(--muted); font-size: .8rem; }
+
+.bar { display: flex; height: 6px; border-radius: 3px; overflow: hidden; margin-top: .5rem; grid-column: 1 / -1; }
+.bar span { display: block; }
+
+.claim {
+  background: var(--card); border-radius: 10px; padding: 1rem 1.2rem; margin-bottom: .8rem;
+  border-left: 4px solid var(--ukendt);
+}
+.claim .head { display: flex; justify-content: space-between; gap: 1rem; align-items: baseline; flex-wrap: wrap; }
+.claim .text { font-weight: 600; margin: .2rem 0 .4rem; }
+.claim .meta { color: var(--muted); font-size: .85rem; }
+.claim .expl { color: var(--text); font-size: .92rem; margin: .5rem 0; }
+.badge { font-size: .8rem; font-weight: 700; padding: .15rem .5rem; border-radius: 6px; white-space: nowrap; }
+.sources { font-size: .82rem; }
+.sources a { color: #58a6ff; display: inline-block; margin-right: .8rem; }
+
+.empty { color: var(--muted); padding: 2rem; text-align: center; }
+
+footer { max-width: 880px; margin: 0 auto; padding: 2rem 1.5rem; color: var(--muted); font-size: .82rem; border-top: 1px solid var(--line); }
+footer a { color: #58a6ff; }

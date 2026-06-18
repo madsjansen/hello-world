@@ -1,0 +1,15 @@
+# Python
+__pycache__/
+*.pyc
+.venv/
+*.egg-info/
+
+# Hemmeligheder
+.env
+
+# Genererede data
+data/*.db
+data/audio/
+
+# Build-artefakt (genereres med `build-site`; sample-versionen er committet)
+# web/leaderboard.json
