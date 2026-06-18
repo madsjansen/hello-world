@@ -1,18 +1,20 @@
 # Vejle Faktatjek
 
-Pipeline der henter lydoptagelser fra Vejle Byråds møder, transskriberer dem
-med taler-identifikation, udtrækker efterprøvbare påstande, faktatjekker dem med
-Claude + websøgning, og bygger et leaderboard over politikernes og partiernes
-pålidelighed.
+Pipeline der henter **lydoptagelser fra Vejle Byråds tidligere møder**,
+transskriberer dem med taler-identifikation, udtrækker efterprøvbare påstande,
+faktatjekker dem med Claude + websøgning, og bygger et leaderboard over
+politikernes og partiernes pålidelighed.
 
-> Datagrundlaget (lydoptagelser, dagsordener, referater) er offentligt tilgængeligt
-> på [vejle.dk](https://www.vejle.dk/politik/politik-og-byraad/moeder-i-byraad-og-udvalg/lydoptagelser-fra-byraadsmoeder/)
-> og via [Kommune-TV](https://kommune-tv.dk/).
+> Vejle Kommune sender ikke live-TV fra byrådet, men publicerer lydoptagelser
+> fra afholdte møder på
+> [vejle.dk](https://www.vejle.dk/politik/politik-og-byraad/moeder-i-byraad-og-udvalg/lydoptagelser-fra-byraadsmoeder/).
+> Pipelinen er derfor rent batch-baseret: den behandler én optagelse ad gangen,
+> efter mødet er holdt.
 
 ## Arkitektur
 
 ```
-  Kommune-TV / vejle.dk lyd-URL
+  vejle.dk lyd-URL (afholdt møde)
             │  (fetch.py)
             ▼
    Lydfil (16 kHz mono WAV)
