@@ -11,3 +11,7 @@ yt-dlp>=2024.0
 # faster-whisper>=1.0
 # whisperx>=3.1            # ord-præcise tidsstempler + diarization
 # torch>=2.0
+
+# Stemme-aftryk / taler-ID (voiceprints.py) — valgfri, tunge afhængigheder:
+# speechbrain>=1.0         # ECAPA-TDNN embeddings
+# torchaudio>=2.0

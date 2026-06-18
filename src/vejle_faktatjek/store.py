@@ -105,6 +105,15 @@ class Store:
     def politician_by_name(self, name: str) -> Optional[sqlite3.Row]:
         return self.conn.execute("SELECT * FROM politicians WHERE name=?", (name,)).fetchone()
 
+    def set_voiceprint(self, politician_id: int, voiceprint_json: str) -> None:
+        with self._tx() as c:
+            c.execute("UPDATE politicians SET voiceprint=? WHERE id=?", (voiceprint_json, politician_id))
+
+    def politicians_with_voiceprints(self) -> list[sqlite3.Row]:
+        return self.conn.execute(
+            "SELECT * FROM politicians WHERE voiceprint IS NOT NULL AND voiceprint != ''"
+        ).fetchall()
+
     # ---- meetings ----
     def create_meeting(self, date: str, title: str, source_url: str = "") -> int:
         with self._tx() as c:

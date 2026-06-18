@@ -73,6 +73,36 @@ def cmd_run(args) -> None:
     store.close()
 
 
+def _parse_spans(text: str | None):
+    if not text:
+        return None
+    spans = []
+    for part in text.split(","):
+        start, _, end = part.partition("-")
+        spans.append((float(start), float(end)))
+    return spans
+
+
+def cmd_enroll(args) -> None:
+    from .pipeline import load_roster
+    from .voiceprints import enroll_politician
+    store = _store()
+    load_roster(store)
+    dim = enroll_politician(store, args.name, args.audio, _parse_spans(args.spans))
+    print(f"Enrollerede stemme-aftryk for {args.name!r} (dim {dim}).")
+    store.close()
+
+
+def cmd_identify(args) -> None:
+    from .pipeline import step_identify_speakers
+    store = _store()
+    n, mapping = step_identify_speakers(store, args.meeting, args.threshold)
+    print(f"Møde {args.meeting}: tildelte {n} segmenter via stemme-aftryk.")
+    for label, name in sorted(mapping.items()):
+        print(f"  {label} → {name}")
+    store.close()
+
+
 def cmd_speakers(args) -> None:
     from .speakers import speaker_label_summary
     store = _store()
@@ -111,6 +141,17 @@ def build_parser() -> argparse.ArgumentParser:
     s = sub.add_parser("speakers", help="Vis speaker-labels for et møde")
     s.add_argument("--meeting", type=int, required=True)
     s.set_defaults(func=cmd_speakers)
+
+    en = sub.add_parser("enroll", help="Gem et stemme-aftryk for en politiker")
+    en.add_argument("--name", required=True)
+    en.add_argument("--audio", required=True, help="Sti til lydfil med politikerens stemme")
+    en.add_argument("--spans", help='Valgfri udsnit i sek., fx "12.0-45.0,90-120"')
+    en.set_defaults(func=cmd_enroll)
+
+    idn = sub.add_parser("identify", help="Tildel talere via stemme-aftryk")
+    idn.add_argument("--meeting", type=int, required=True)
+    idn.add_argument("--threshold", type=float, default=0.5)
+    idn.set_defaults(func=cmd_identify)
 
     r = sub.add_parser("run", help="Kør hele kæden for et nyt møde")
     r.add_argument("--url", required=True)

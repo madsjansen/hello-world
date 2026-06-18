@@ -76,12 +76,29 @@ python -m vejle_faktatjek.cli factcheck --meeting 1
 python -m vejle_faktatjek.cli build-site
 ```
 
-## Politiker-roster
+## Politiker-roster og taler-ID
 
-Taler-identifikation kobler "Speaker 1/2/3" fra diarization til navngivne
-politikere. Udfyld `data/politicians.json` med byrådets medlemmer (navn + parti).
-Indtil hver politiker har et stemme-aftryk (`voiceprint`), markeres ukendte
-talere som `Ukendt` og kan rettes manuelt i databasen.
+Udfyld `data/politicians.json` med byrådets medlemmer (navn + parti).
+
+Taler-identifikation kobler diarization-klynger ("SPEAKER_00") til navngivne
+politikere på to måder:
+
+1. **Automatisk via stemme-aftryk** (anbefalet). Enrollér hver politiker én gang
+   fra et stykke lyd hvor man ved hvem der taler:
+
+   ```bash
+   python -m vejle_faktatjek.cli enroll \
+       --name "Jens Ejner Christensen" \
+       --audio data/audio/eksempel.wav --spans "12.0-95.0"
+   ```
+
+   Derefter matcher pipelinen automatisk hvert nyt mødes talere mod aftrykkene
+   (cosine-lighed over en tærskel). Kør `identify --meeting N` separat, eller
+   lad `run` gøre det automatisk.
+
+2. **Manuelt** hvis et aftryk mangler: giv `run --label-map '{"SPEAKER_00": "Navn"}'`,
+   eller ret `politician_id` på segmenterne i databasen. Ukendte talere forbliver
+   `Ukendt`.
 
 ## Vurderingskategorier
 
@@ -97,7 +114,8 @@ så en der siger lidt ikke fremstår kunstigt pålidelig.
 | `config.py` | Konfiguration (API-nøgle, model, stier) fra miljøvariabler |
 | `fetch.py` | Hent lyd/stream fra vejle.dk / Kommune-TV → 16 kHz WAV |
 | `transcribe.py` | Dansk ASR + speaker diarization → segmenter |
-| `speakers.py` | Match diarization-labels til navngivne politikere |
+| `voiceprints.py` | Stemme-aftryk: automatisk match af diarization-klynger → politikere |
+| `speakers.py` | Manuel match af diarization-labels til navngivne politikere |
 | `claims.py` | Udtræk efterprøvbare påstande (Claude, struktureret output) |
 | `factcheck.py` | Evidensbaseret dom pr. påstand (Claude + `web_search`) |
 | `store.py` | SQLite-lager + datamodel |

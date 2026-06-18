@@ -45,6 +45,18 @@ def step_transcribe(store: Store, meeting_id: int) -> int:
     return len(segs)
 
 
+def step_identify_speakers(store: Store, meeting_id: int,
+                           threshold: float = 0.5) -> tuple[int, dict[str, str]]:
+    """Tildel politikere til segmenter via stemme-aftryk. Returnerer (antal, mapping)."""
+    from .speakers import apply_label_map
+    from .voiceprints import identify_meeting_speakers
+    m = store.meeting(meeting_id)
+    if not m["audio_path"]:
+        raise RuntimeError("Mødet har ingen lydfil. Kør fetch + transcribe først.")
+    mapping = identify_meeting_speakers(store, meeting_id, Path(m["audio_path"]), threshold)
+    return apply_label_map(store, meeting_id, mapping), mapping
+
+
 def step_extract_claims(store: Store, meeting_id: int) -> int:
     import anthropic
 
@@ -99,7 +111,10 @@ def run_all(store: Store, url: str, date: str, title: str,
     meeting_id = store.create_meeting(date, title, url)
     step_fetch(store, meeting_id, url)
     step_transcribe(store, meeting_id)
-    if label_map:
+    # Foretræk automatisk taler-ID via stemme-aftryk; fald tilbage til en manuel
+    # kortlægning hvis ingen aftryk er enrolleret.
+    n_auto, _ = step_identify_speakers(store, meeting_id)
+    if n_auto == 0 and label_map:
         from .speakers import apply_label_map
         apply_label_map(store, meeting_id, label_map)
     step_extract_claims(store, meeting_id)
