@@ -1,0 +1,286 @@
+<!doctype html>
+<html lang="da">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Navne-flashcards</title>
+<style>
+  :root{
+    --bg:#f4f5f7; --card:#ffffff; --text:#1a1c1f; --muted:#6b7280;
+    --border:#e2e4e8; --accent:#3b6cf0; --accent-text:#ffffff;
+    --good:#1f9d55; --bad:#d64550; --shadow:0 1px 3px rgba(0,0,0,.08),0 8px 24px rgba(0,0,0,.06);
+  }
+  @media (prefers-color-scheme: dark){
+    :root{
+      --bg:#15171b; --card:#1f2228; --text:#e8eaed; --muted:#9aa0aa;
+      --border:#2c3038; --accent:#5b83f5; --accent-text:#ffffff;
+      --good:#3ac06d; --bad:#f0616c; --shadow:0 1px 3px rgba(0,0,0,.4),0 8px 24px rgba(0,0,0,.35);
+    }
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--text);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    line-height:1.5;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:820px;margin:0 auto;padding:24px 18px 80px}
+  h1{font-size:1.55rem;margin:.2em 0 .1em;letter-spacing:-.01em}
+  .sub{color:var(--muted);margin:0 0 22px;font-size:.95rem}
+  .tabs{display:flex;gap:6px;background:var(--card);border:1px solid var(--border);
+    border-radius:12px;padding:5px;margin-bottom:22px;box-shadow:var(--shadow)}
+  .tabs button{flex:1;border:0;background:transparent;color:var(--muted);
+    padding:10px 8px;border-radius:8px;font-size:.95rem;font-weight:600;cursor:pointer}
+  .tabs button.active{background:var(--accent);color:var(--accent-text)}
+  .panel{display:none}
+  .panel.active{display:block}
+  .card{background:var(--card);border:1px solid var(--border);border-radius:14px;
+    padding:18px;box-shadow:var(--shadow);margin-bottom:18px}
+  label.file{display:inline-flex;align-items:center;gap:8px;cursor:pointer;
+    background:var(--accent);color:var(--accent-text);padding:10px 16px;border-radius:9px;
+    font-weight:600;font-size:.95rem}
+  label.file input{display:none}
+  .hint{color:var(--muted);font-size:.85rem;margin-top:10px}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:12px;margin-top:16px}
+  .member{background:var(--bg);border:1px solid var(--border);border-radius:11px;padding:8px;position:relative}
+  .member img{width:100%;aspect-ratio:1;object-fit:cover;border-radius:8px;display:block;background:var(--border)}
+  .member input{width:100%;margin-top:7px;border:1px solid var(--border);background:var(--card);
+    color:var(--text);border-radius:7px;padding:6px 8px;font-size:.85rem}
+  .member .del{position:absolute;top:4px;right:4px;width:24px;height:24px;border-radius:6px;border:0;
+    background:rgba(0,0,0,.55);color:#fff;cursor:pointer;font-size:.9rem;line-height:1}
+  .btn{border:0;border-radius:9px;padding:11px 18px;font-weight:600;font-size:.95rem;cursor:pointer}
+  .btn.primary{background:var(--accent);color:var(--accent-text)}
+  .btn.ghost{background:transparent;color:var(--muted);border:1px solid var(--border)}
+  .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:14px}
+  .empty{text-align:center;color:var(--muted);padding:40px 10px}
+
+  /* Practice */
+  .flash{text-align:center}
+  .photo-wrap{margin:0 auto;max-width:320px}
+  .photo-wrap img{width:100%;aspect-ratio:1;object-fit:cover;border-radius:16px;box-shadow:var(--shadow)}
+  .reveal{font-size:1.6rem;font-weight:700;margin:18px 0 4px;min-height:1.6em}
+  .reveal.hidden{color:var(--muted);font-weight:500;font-size:1.05rem}
+  .choices{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:18px}
+  .choices button{padding:14px;border-radius:11px;border:1px solid var(--border);
+    background:var(--card);color:var(--text);font-size:1rem;font-weight:600;cursor:pointer}
+  .choices button.correct{background:var(--good);color:#fff;border-color:var(--good)}
+  .choices button.wrong{background:var(--bad);color:#fff;border-color:var(--bad)}
+  .score{color:var(--muted);font-size:.9rem;margin-top:16px}
+  .mode-toggle{display:inline-flex;background:var(--card);border:1px solid var(--border);
+    border-radius:10px;padding:4px;margin-bottom:18px;gap:4px}
+  .mode-toggle button{border:0;background:transparent;color:var(--muted);padding:8px 14px;
+    border-radius:7px;font-weight:600;cursor:pointer;font-size:.9rem}
+  .mode-toggle button.active{background:var(--accent);color:var(--accent-text)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Navne-flashcards</h1>
+  <p class="sub">Tilføj ansigter og navne, og øv dig til du kan dem alle. Alt gemmes kun på din egen computer.</p>
+
+  <div class="tabs">
+    <button data-tab="add" class="active">Tilføj medlemmer</button>
+    <button data-tab="practice">Øv</button>
+  </div>
+
+  <!-- ADD -->
+  <section class="panel active" id="panel-add">
+    <div class="card">
+      <label class="file">
+        📷 Vælg billeder
+        <input type="file" id="fileInput" accept="image/*" multiple>
+      </label>
+      <p class="hint">Vælg profilbilleder fra gruppen (du kan vælge mange på én gang). Skriv navnet under hvert billede. Data gemmes automatisk i din browser.</p>
+      <div class="row" id="dataRow" style="display:none">
+        <button class="btn ghost" id="exportBtn">⬇︎ Eksportér backup</button>
+        <label class="btn ghost" style="cursor:pointer">⬆︎ Importér backup
+          <input type="file" id="importInput" accept="application/json" style="display:none">
+        </label>
+        <button class="btn ghost" id="clearBtn" style="color:var(--bad)">Slet alle</button>
+      </div>
+    </div>
+    <div id="memberGrid" class="grid"></div>
+    <div id="addEmpty" class="empty">Ingen medlemmer endnu — vælg nogle billeder ovenfor for at komme i gang.</div>
+  </section>
+
+  <!-- PRACTICE -->
+  <section class="panel" id="panel-practice">
+    <div style="text-align:center">
+      <div class="mode-toggle">
+        <button data-mode="flip" class="active">Vend kort</button>
+        <button data-mode="quiz">Multiple choice</button>
+      </div>
+    </div>
+    <div class="card flash" id="practiceArea">
+      <div class="empty" id="practiceEmpty">Tilføj mindst 2 medlemmer med navn, så kan du begynde at øve.</div>
+      <div id="practiceCard" style="display:none">
+        <div class="photo-wrap"><img id="pPhoto" alt="ansigt"></div>
+        <div id="pReveal" class="reveal hidden">Hvem er det?</div>
+        <div id="flipControls">
+          <button class="btn primary" id="showBtn">Vis navn</button>
+        </div>
+        <div id="ratingControls" class="row" style="justify-content:center;display:none">
+          <button class="btn ghost" id="againBtn" style="color:var(--bad)">Kunne ikke</button>
+          <button class="btn primary" id="gotBtn">Kunne det ✓</button>
+        </div>
+        <div class="choices" id="choices" style="display:none"></div>
+        <div class="score" id="score"></div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<script>
+(function(){
+  var KEY = "navne-flashcards-v1";
+  var members = load();
+  var mode = "flip";
+  var current = null, revealed = false;
+  var stats = {right:0, total:0};
+
+  function load(){ try{ return JSON.parse(localStorage.getItem(KEY)) || []; }catch(e){ return []; } }
+  function save(){ localStorage.setItem(KEY, JSON.stringify(members)); }
+  function uid(){ return Date.now().toString(36)+Math.random().toString(36).slice(2,7); }
+
+  // ---- Tabs ----
+  document.querySelectorAll('.tabs button').forEach(function(b){
+    b.onclick=function(){
+      document.querySelectorAll('.tabs button').forEach(x=>x.classList.remove('active'));
+      b.classList.add('active');
+      document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+      document.getElementById('panel-'+b.dataset.tab).classList.add('active');
+      if(b.dataset.tab==='practice') startPractice();
+    };
+  });
+
+  // ---- Add members ----
+  document.getElementById('fileInput').onchange=function(e){
+    var files=[].slice.call(e.target.files);
+    var pending=files.length;
+    files.forEach(function(f){
+      var r=new FileReader();
+      r.onload=function(){
+        members.push({id:uid(), name:"", img:r.result});
+        if(--pending===0){ save(); renderMembers(); }
+      };
+      r.readAsDataURL(f);
+    });
+    e.target.value="";
+  };
+
+  function renderMembers(){
+    var grid=document.getElementById('memberGrid');
+    grid.innerHTML="";
+    document.getElementById('addEmpty').style.display = members.length? "none":"block";
+    document.getElementById('dataRow').style.display = members.length? "flex":"none";
+    members.forEach(function(m){
+      var d=document.createElement('div'); d.className='member';
+      d.innerHTML='<button class="del" title="Fjern">×</button>'+
+        '<img src="'+m.img+'" alt="">'+
+        '<input type="text" placeholder="Navn…" value="'+escapeAttr(m.name)+'">';
+      d.querySelector('input').oninput=function(){ m.name=this.value; save(); };
+      d.querySelector('.del').onclick=function(){
+        members=members.filter(x=>x.id!==m.id); save(); renderMembers();
+      };
+      grid.appendChild(d);
+    });
+  }
+  function escapeAttr(s){ return (s||"").replace(/"/g,'&quot;').replace(/</g,'&lt;'); }
+
+  // ---- Data backup ----
+  document.getElementById('exportBtn').onclick=function(){
+    var blob=new Blob([JSON.stringify(members)],{type:'application/json'});
+    var a=document.createElement('a');
+    a.href=URL.createObjectURL(blob); a.download='navne-flashcards-backup.json'; a.click();
+  };
+  document.getElementById('importInput').onchange=function(e){
+    var f=e.target.files[0]; if(!f) return;
+    var r=new FileReader();
+    r.onload=function(){ try{
+      var data=JSON.parse(r.result);
+      if(Array.isArray(data)){ members=data.map(m=>({id:m.id||uid(),name:m.name||"",img:m.img})); save(); renderMembers(); }
+    }catch(err){ alert("Kunne ikke læse filen."); } };
+    r.readAsDataURL ? r.readAsText(f) : r.readAsText(f);
+  };
+  document.getElementById('clearBtn').onclick=function(){
+    if(confirm("Slet alle medlemmer? Dette kan ikke fortrydes (lav evt. en backup først).")){
+      members=[]; save(); renderMembers();
+    }
+  };
+
+  // ---- Practice ----
+  document.querySelectorAll('.mode-toggle button').forEach(function(b){
+    b.onclick=function(){
+      document.querySelectorAll('.mode-toggle button').forEach(x=>x.classList.remove('active'));
+      b.classList.add('active'); mode=b.dataset.mode; stats={right:0,total:0}; startPractice();
+    };
+  });
+
+  function named(){ return members.filter(m=>m.name && m.name.trim()); }
+
+  function startPractice(){
+    var pool=named();
+    var ok = mode==='quiz' ? pool.length>=2 : pool.length>=1;
+    document.getElementById('practiceEmpty').style.display = ok? "none":"block";
+    document.getElementById('practiceCard').style.display = ok? "block":"none";
+    if(ok) nextCard();
+  }
+
+  function nextCard(){
+    var pool=named();
+    current = pool[Math.floor(Math.random()*pool.length)];
+    revealed=false;
+    document.getElementById('pPhoto').src=current.img;
+    var rev=document.getElementById('pReveal');
+    rev.className='reveal hidden'; rev.textContent='Hvem er det?';
+    document.getElementById('score').textContent = stats.total? ('Rigtige: '+stats.right+' / '+stats.total):'';
+
+    if(mode==='flip'){
+      document.getElementById('flipControls').style.display='block';
+      document.getElementById('ratingControls').style.display='none';
+      document.getElementById('choices').style.display='none';
+    }else{
+      document.getElementById('flipControls').style.display='none';
+      document.getElementById('ratingControls').style.display='none';
+      buildChoices();
+    }
+  }
+
+  document.getElementById('showBtn').onclick=function(){
+    revealed=true;
+    var rev=document.getElementById('pReveal');
+    rev.className='reveal'; rev.textContent=current.name;
+    document.getElementById('flipControls').style.display='none';
+    document.getElementById('ratingControls').style.display='flex';
+  };
+  document.getElementById('gotBtn').onclick=function(){ stats.right++; stats.total++; nextCard(); };
+  document.getElementById('againBtn').onclick=function(){ stats.total++; nextCard(); };
+
+  function buildChoices(){
+    var wrap=document.getElementById('choices'); wrap.style.display='grid'; wrap.innerHTML="";
+    var pool=named();
+    var opts=[current.name];
+    var others=pool.filter(m=>m.name!==current.name).map(m=>m.name);
+    shuffle(others);
+    for(var i=0;i<others.length && opts.length<4;i++){ if(opts.indexOf(others[i])<0) opts.push(others[i]); }
+    shuffle(opts);
+    opts.forEach(function(name){
+      var b=document.createElement('button'); b.textContent=name;
+      b.onclick=function(){
+        stats.total++;
+        if(name===current.name){ b.className='correct'; stats.right++; }
+        else{
+          b.className='wrong';
+          [].forEach.call(wrap.children,function(c){ if(c.textContent===current.name) c.className='correct'; });
+        }
+        [].forEach.call(wrap.children,function(c){ c.disabled=true; });
+        document.getElementById('score').textContent='Rigtige: '+stats.right+' / '+stats.total;
+        setTimeout(nextCard, 1100);
+      };
+      wrap.appendChild(b);
+    });
+  }
+  function shuffle(a){ for(var i=a.length-1;i>0;i--){ var j=Math.floor(Math.random()*(i+1)); var t=a[i];a[i]=a[j];a[j]=t; } }
+
+  renderMembers();
+})();
+</script>
+</body>
+</html>
